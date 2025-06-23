@@ -1,0 +1,30 @@
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Your Assigned Tasks</h1>
+    
+
+    <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-table me-1"></i> Task List</div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Created</th>
+                    <th>Assigned_user_name</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <% @tasks.each do |task| %>
+                        <tr>
+                            <td><%= task.title %></td>
+                            <td><%= truncate(task.description, length: 100) %></td>
+                            <td><%= task.created_at.strftime("%d %b %Y") %></td>
+                            <td><%= task.assigned_user.email if task.assigned_user %></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

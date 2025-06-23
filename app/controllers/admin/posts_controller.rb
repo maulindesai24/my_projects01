@@ -1,10 +1,10 @@
 class Admin::PostsController < ApplicationController
   def index
-    @posts = Post.all
+    @posts = current_user.posts
   end
 
   def new
-    @post = current_user.posts.build
+    @posts = current_user.posts.build
   end
 
   def create
@@ -16,7 +16,10 @@ class Admin::PostsController < ApplicationController
     end
   end
 
- 
+  def show
+    @post = current_user.posts.find(params[:id])
+  end
+
 
   def edit
     # Optional: Ensure only post owner can edit

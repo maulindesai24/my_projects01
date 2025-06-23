@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
   namespace :admin do
-
     get "dashboard", to: "dashboard#index"
     resources :users, only: [:index]
     resources :posts
-    resources :tasks, only: [:index]
-    
+    resources :tasks
   end
   
   devise_for :users

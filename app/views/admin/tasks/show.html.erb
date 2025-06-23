@@ -1,0 +1,19 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4"><%= @task.title %></h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><%= link_to "Tasks", tasks_path %></li>
+    <li class="breadcrumb-item active">View Task</li>
+  </ol>
+
+  <div class="card mb-4">
+    <div class="card-header">Author: <%= @task.user.email %> | <%= @task.created_at.strftime("%d %b %Y, %I:%M %p") %></div>
+    <div class="card-body">
+      <p><%= simple_format(@task.description) %></p>
+    </div>
+  </div>
+
+  <%= link_to "Back", tasks_path, class: "btn btn-secondary" %>
+  <% if @task.user == current_user %>
+    <%= link_to "Edit", edit_task_path(@task), class: "btn btn-warning ms-2" %>
+  <% end %>
+</div>

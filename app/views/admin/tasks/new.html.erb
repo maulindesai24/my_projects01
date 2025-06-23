@@ -1,0 +1,14 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4"><%= action_name == "new" ? "New Task" : "Edit Task" %></h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><%= link_to "Tasks", tasks_path %></li>
+    <li class="breadcrumb-item active"><%= action_name.capitalize %> Task</li>
+  </ol>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <%= render "form", task: @task %>
+    </div>
+  </div>
+</div>
+

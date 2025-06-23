@@ -1,2 +1,45 @@
-<h1>Admin::Tasks#index</h1>
-<p>Find me in app/views/admin/tasks/index.html.erb</p>
+<div class="container-fluid px-4">
+  <h1 class="mt-4">Tasks</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">All Tasks</li>
+  </ol>
+
+  <div class="mb-3">
+    <%= link_to "Create New Task", new_admin_task_path, class: "btn btn-primary" %>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header"><i class="fas fa-table me-1"></i> Task List</div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Created</th>
+            <th>Actions</th>
+            <th>Assigned_user_name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @tasks.each do |task| %>
+            <tr>
+              <td><%= link_to task.title, task_path(task) %></td>
+              <td><%= task.user.email %></td>
+              <td><%= task.created_at.strftime("%d %b %Y") %></td>
+              <td>
+                <% if task.user == current_user %>
+                  <%= link_to "Edit", edit_task_path(task), class: "btn btn-sm btn-warning me-1" %>
+                  <%= button_to "Delete", task_path(task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+                <% else %>
+                  <span class="text-muted">N/A</span>
+                <% end %>
+              </td>
+              <td><%= task.assigned_user.email if task.assigned_user %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ class PostsController < ApplicationController
     before_action :set_post, only: [:show, :edit, :update, :destroy]
 
     def index
-        @posts = Post.all
+        @posts = current_user.posts
     end
 
     def new
@@ -21,7 +21,7 @@ class PostsController < ApplicationController
     end
 
     def show
-        @post = Post.find(params[:id])
+        @post = current_user.posts.find(params[:id])
     end
 
     def edit

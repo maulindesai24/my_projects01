@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_23_062251) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_23_121920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "admin_tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "descrption"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_admin_tasks_on_user_id"
+  end
 
   create_table "posts", force: :cascade do |t|
     t.string "title"
@@ -29,6 +38,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_062251) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "assigned_user_id"
+    t.index ["assigned_user_id"], name: "index_tasks_on_assigned_user_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,5 +57,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_062251) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "admin_tasks", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "tasks", "users"
+  add_foreign_key "tasks", "users", column: "assigned_user_id"
 end
