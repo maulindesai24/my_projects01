@@ -1,0 +1,19 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4"><%= @post.title %></h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><%= link_to "Posts", posts_path %></li>
+    <li class="breadcrumb-item active">View Post</li>
+  </ol>
+
+  <div class="card mb-4">
+    <div class="card-header">Author: <%= @post.user.email %> | <%= @post.created_at.strftime("%d %b %Y, %I:%M %p") %></div>
+    <div class="card-body">
+      <p><%= simple_format(@post.body) %></p>
+    </div>
+  </div>
+
+  <%= link_to "Back", posts_path, class: "btn btn-secondary" %>
+  <% if @post.user == current_user %>
+    <%= link_to "Edit", edit_post_path(@post), class: "btn btn-warning ms-2" %>
+  <% end %>
+</div>

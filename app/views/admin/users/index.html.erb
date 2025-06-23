@@ -1,0 +1,26 @@
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Recent Users
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Signed Up</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% User.order(created_at: :desc).limit(5).each do |user| %>
+                <tr>
+                <td><%= user.id %></td>
+                <td><%= user.email %></td>
+                <td><%= user.created_at.strftime("%b %d, %Y") %></td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
