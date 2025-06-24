@@ -34,7 +34,7 @@ class Admin::TasksController < ApplicationController
     end
 
     def update
-        if @task.user == current_user
+        if current_user.admin?
             if @task.update(task_params)
                 redirect_to admin_tasks_path, notice: "Task updated."
             else
@@ -61,6 +61,6 @@ class Admin::TasksController < ApplicationController
     end
 
     def task_params
-        params.require(:task).permit(:title, :description, :assigned_user_id)
+        params.require(:task).permit(:title, :description, :assigned_user_id, :completed)
     end
 end

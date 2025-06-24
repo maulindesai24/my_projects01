@@ -12,5 +12,21 @@
     </div>
   </div>
 
+  <h2>Comments</h2>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <% @task.comments.each do |comment| %>
+        <p><strong><%= comment.user&.email %>||<%= comment.created_at.strftime("%d %b %Y, %I:%M %p") %></strong>:<%= comment.content %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <%= form_with(model: [@task, Comment.new], local: true) do |f| %>
+    <%= f.text_area :content, rows: 3, placeholder: "Write a comment..." %><br>
+    <%= f.submit "Add Comment", class: "btn btn-primary mt-2" %>
+  <% end %>
+  <hr>
+
   <%= link_to "Back", tasks_path, class: "btn btn-secondary" %>
 </div>

@@ -19,8 +19,8 @@
       <div class="card bg-warning text-white mb-4">
         <div class="card-body">Posts</div>
         <div class="card-footer d-flex align-items-center justify-content-between">
-          <%= current_user.posts.count %> total
-          <%= link_to "View", admin_posts_path, class: "small text-white stretched-link" %>
+          <%= Post.count %> total
+          <%= link_to "View", posts_path, class: "small text-white stretched-link" %>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@
   </div>
 
   <div class="card mb-4">
-    <div class="card-header"><i class="fas fa-table me-1"></i> Task List</div>
+    <div class="card-header"><i class="fas fa-table me-1"></i>Task List</div>
     <div class="card-body">
       <table class="table table-bordered">
         <thead>
@@ -19,6 +19,7 @@
             <th>Created</th>
             <th>Actions</th>
             <th>Assigned_user_name</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -36,6 +37,11 @@
                 <% end %>
               </td>
               <td><%= task.assigned_user.email if task.assigned_user %></td>
+              <td>
+                <%= form_with(model: task, url: admin_task_path(task), method: :patch, local: true) do |f| %>
+                  <%= f.check_box :completed, { checked: task.completed, onchange: 'this.form.submit();' } %>
+                <% end %>
+              </td>
             </tr>
           <% end %>
         </tbody>

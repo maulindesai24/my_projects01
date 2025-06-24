@@ -1,5 +1,5 @@
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Your Assigned Tasks</h1>
+    <h1 class="mt-4">Assigned Tasks</h1>
     
 
     <div class="card mb-4">
@@ -12,15 +12,25 @@
                     <th>Description</th>
                     <th>Created</th>
                     <th>Assigned_user_name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                     <% @tasks.each do |task| %>
                         <tr>
-                            <td><%= task.title %></td>
+                            <td><%= link_to task.title, task_path(task) %></td>
                             <td><%= truncate(task.description, length: 100) %></td>
                             <td><%= task.created_at.strftime("%d %b %Y") %></td>
                             <td><%= task.assigned_user.email if task.assigned_user %></td>
+                            <td>
+                                <%= form_with(model: task, url: task_path(task), method: :patch, local: true) do |f| %>
+                                    <%= f.check_box :completed, { checked: task.completed, onchange: 'this.form.submit();' } %>
+                                <% end %>
+                            </td>
+                            <td>
+                                <%= link_to "Comment", task_path(task), class: "btn btn-sm btn-info" %>  
+                            </td>
                         </tr>
                     <% end %>
                 </tbody>

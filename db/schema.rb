@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_23_121920) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_24_060544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,6 +21,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_121920) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_admin_tasks_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.string "commentable_type", null: false
+    t.bigint "commentable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -40,6 +51,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_121920) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.bigint "assigned_user_id"
+    t.boolean "completed"
     t.index ["assigned_user_id"], name: "index_tasks_on_assigned_user_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
@@ -58,6 +70,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_121920) do
   end
 
   add_foreign_key "admin_tasks", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "tasks", "users"
   add_foreign_key "tasks", "users", column: "assigned_user_id"

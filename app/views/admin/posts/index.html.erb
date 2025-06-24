@@ -27,7 +27,7 @@
               <td><%= post.user.email %></td>
               <td><%= post.created_at.strftime("%d %b %Y") %></td>
               <td>
-                <% if post.user == current_user %>
+                <% if post.user == current_user || current_user.admin?%>
                   <%= link_to "Edit", edit_post_path(post), class: "btn btn-sm btn-warning me-1" %>
                   <%= link_to "Delete", post_path(post), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
                 <% else %>
