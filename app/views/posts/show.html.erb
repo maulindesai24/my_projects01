@@ -25,7 +25,7 @@
             <%= comment.content %>
           </p>
           <% if comment.user == current_user || current_user.admin? %>
-            <%= link_to "Delete", post_comment_path(@post, comment), method: :delete, data: { confirm: "Delete this comment?" }, class: "btn btn-sm btn-danger" %>
+            <%= button_to "Delete", post_comment_path(@post, comment), method: :delete, data: { confirm: "Delete this comment?" }, class: "btn btn-sm btn-danger" %>
           <% end %>
         </div>
       <% end %>
