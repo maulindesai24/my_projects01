@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-    before_action :set_task, only: [:show, :destroy, :update]
+    before_action :set_task, only: [ :show, :destroy, :edit, :update ]
 
     before_action :authenticate_user!
 
@@ -18,6 +18,9 @@ class TasksController < ApplicationController
         else
             redirect_to admin_tasks_path, alert: "Not authorized"
         end
+    end
+
+    def edit
     end
 
     def update

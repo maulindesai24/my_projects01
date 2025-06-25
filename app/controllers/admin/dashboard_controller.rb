@@ -6,7 +6,7 @@ class Admin::DashboardController < ApplicationController
   end
 
   private
-
+  
   def check_admin
     redirect_to root_path, alert: "Not authorized!" unless current_user.admin?
   end

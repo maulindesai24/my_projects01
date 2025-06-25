@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:destroy]
+  before_action :set_comment, only: [ :destroy ]
   before_action :authenticate_user!
 
   def create
@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to @comment.commentable, notice: "Commented successfully."
     else
-      render :new, status: :unprocessable_entity
+      redirect_to @comment.commentable, status: :unprocessable_entity
     end
   end
 

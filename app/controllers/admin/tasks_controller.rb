@@ -1,5 +1,5 @@
 class Admin::TasksController < ApplicationController
-    before_action :set_task, only: [:show, :edit, :update, :destroy]
+    before_action :set_task, only: [ :show, :edit, :update, :destroy ]
     before_action :authenticate_user!
     before_action :check_admin
 
@@ -11,13 +11,13 @@ class Admin::TasksController < ApplicationController
         redirect_to root_path, alert: "Not authorized!" unless current_user.admin?
     end
 
-    def new 
+    def new
         @task = Task.new
     end
 
-    def create 
+    def create
         @task = Task.new(task_params)
-        @task.user = current_user 
+        @task.user = current_user
         if @task.save
             redirect_to admin_tasks_path notice: "Post created successfully."
         else
@@ -26,7 +26,6 @@ class Admin::TasksController < ApplicationController
     end
 
     def show
-        #@task = Task.find(params[:id])
     end
 
     def edit

@@ -1,0 +1,15 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4">Edit Task</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><%= link_to "Tasks", tasks_path %></li>
+    <li class="breadcrumb-item active">Edit Task</li>
+  </ol>
+
+  <div class="card mb-4">
+    <div class="card-header"><i class="fas fa-edit me-1"></i> Edit Task</div>
+    <div class="card-body">
+      <%= render "form", task: @task %>
+    </div>
+  </div>
+  <%= link_to "Back", tasks_path, class: "btn btn-secondary" %>
+</div>
