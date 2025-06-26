@@ -1,49 +1,52 @@
 class Admin::PostsController < ApplicationController
+  
+  before_action :set_post, only: [ :show, :edit, :update, :destroy ]
+
+
   def index
-    @posts = current_user.posts
+    @posts = Post.all
   end
 
   def new
-    @posts = current_user.posts.build
+    @post = current_user.posts.build
   end
 
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to posts_path, notice: "Post created successfully."
+      redirect_to admin_posts_path, notice: "Post created successfully."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
-    @post = current_user.posts.find(params[:id])
   end
 
 
   def edit
     # Optional: Ensure only post owner can edit
-    redirect_to posts_path, alert: "Not authorized" unless @post.user == current_user
+    redirect_to admin_posts_path, alert: "Not authorized" unless current_user.admin?
   end
 
   def update
-    if @post.user == current_user
+    if current_user.admin?
       if @post.update(post_params)
-        redirect_to posts_path, notice: "Post updated."
+        redirect_to admin_post_path, notice: "Post updated."
       else
         render :edit, status: :unprocessable_entity
       end
     else
-      redirect_to posts_path, alert: "Not authorized"
+      redirect_to admin_posts_path, alert: "Not authorized"
     end
   end
 
   def destroy
-    if @post.user == current_user
+    if current_user.admin?
       @post.destroy
-      redirect_to posts_path, notice: "Post deleted."
+      redirect_to admin_posts_path, notice: "Post deleted."
     else
-      redirect_to posts_path, alert: "Not authorized"
+      redirect_to admin_posts_path, alert: "Not authorized"
     end
   end
 

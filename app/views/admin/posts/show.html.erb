@@ -1,19 +1,51 @@
 <div class="container-fluid px-4">
   <h1 class="mt-4"><%= @post.title %></h1>
   <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><%= link_to "Posts", posts_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Posts", admin_posts_path %></li>
     <li class="breadcrumb-item active">View Post</li>
   </ol>
 
   <div class="card mb-4">
-    <div class="card-header">Author: <%= @post.user.email %> | <%= @post.created_at.strftime("%d %b %Y, %I:%M %p") %></div>
+    <div class="card-header">Author: <%= @post.user.name %> | <%= @post.created_at.strftime("%d %b %Y, %I:%M %p") %></div>
     <div class="card-body">
       <p><%= simple_format(@post.body) %></p>
     </div>
   </div>
 
-  <%= link_to "Back", posts_path, class: "btn btn-secondary" %>
-  <% if @post.user == current_user %>
-    <%= link_to "Edit", edit_post_path(@post), class: "btn btn-warning ms-2" %>
+  <h2>Comments</h2>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <% @post.comments.each do |comment| %>
+        <div class="mb-2 border-bottom pb-2">
+          <p>
+            <strong><%= comment.user&.name || "Unknown" %></strong>
+            <small class="text-muted">| <%= comment.created_at.strftime("%d %b %Y, %I:%M %p") %></small>
+            <br>
+            <%= comment.content %>
+          </p>
+          <% like = comment.likes.find_by(user: current_user) %>
+          <% if like %>
+              <%= button_to raw('👎'), like_path(like), method: :delete, class: "btn btn-sm btn-outline-danger" %>
+          <% else %>
+              <%= button_to raw('👍'), likes_path(likeable_type: "Comment", likeable_id: comment.id), method: :post, class: "btn btn-sm btn-outline-primary"%>
+          <% end %>
+          <p><%= pluralize(comment.likes.count, "like") %></p>
+          <% if current_user.admin? %>
+            <%= button_to "Delete", post_comment_path(@post, comment), method: :delete, data: { confirm: "Delete this comment?" }, class: "btn btn-sm btn-danger" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%= form_with(model: [@post, Comment.new], local: true) do |f| %>
+    <%= f.text_area :content, rows: 3, placeholder: "Write a comment..." %><br>
+    <%= f.submit "Add Comment", class: "btn btn-primary mt-2" %>
+  <% end %>
+
+  <%= link_to "Back", admin_posts_path, class: "btn btn-secondary" %>
+  <% if current_user.admin? %>
+    <%= link_to "Edit", edit_admin_post_path(@post), class: "btn btn-warning ms-2" %>
   <% end %>
 </div>

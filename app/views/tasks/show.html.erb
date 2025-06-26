@@ -20,9 +20,9 @@
         <p><strong><%= comment.user&.email %>||<%= comment.created_at.strftime("%d %b %Y, %I:%M %p") %></strong>:<%= comment.content %></p>
         <% like = comment.likes.find_by(user: current_user) %>
         <% if like %>
-            <%= button_to 'Unlike', like_path(like), method: :delete, class: "btn btn-sm btn-outline-danger" %>
+            <%= button_to raw('👎'), like_path(like), method: :delete, class: "btn btn-sm btn-outline-danger" %>
         <% else %>
-            <%= button_to 'Like', likes_path(likeable_type: "Comment", likeable_id: comment.id), method: :post, class: "btn btn-sm btn-outline-primary"%>
+            <%= button_to raw('👍'), likes_path(likeable_type: "Comment", likeable_id: comment.id), method: :post, class: "btn btn-sm btn-outline-primary"%>
         <% end %>
         <p><%= pluralize(comment.likes.count, "like") %></p>
       <% end %>

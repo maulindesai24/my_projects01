@@ -1,0 +1,15 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4">Edit Post</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><%= link_to "Posts", admin_posts_path %></li>
+    <li class="breadcrumb-item active">Edit Post</li>
+  </ol>
+
+  <div class="card mb-4">
+    <div class="card-header"><i class="fas fa-edit me-1"></i> Edit Post</div>
+    <div class="card-body">
+      <%= render "form", post: @post %>
+    </div>
+  </div>
+  <%= link_to "Back", admin_posts_path, class: "btn btn-secondary" %>
+</div>

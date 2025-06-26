@@ -12,8 +12,31 @@
     </div>
   </div>
 
+  <h2>Comments</h2>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <% @task.comments.each do |comment| %>
+        <p><strong><%= comment.user&.email %>||<%= comment.created_at.strftime("%d %b %Y, %I:%M %p") %></strong>:<%= comment.content %></p>
+        <% like = comment.likes.find_by(user: current_user) %>
+        <% if like %>
+            <%= button_to raw('👎'), like_path(like), method: :delete, class: "btn btn-sm btn-outline-danger" %>
+        <% else %>
+            <%= button_to raw('👍'), likes_path(likeable_type: "Comment", likeable_id: comment.id), method: :post, class: "btn btn-sm btn-outline-primary"%>
+        <% end %>
+        <p><%= pluralize(comment.likes.count, "like") %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <%= form_with(model: [@task, Comment.new], local: true) do |f| %>
+    <%= f.text_area :content, rows: 3, placeholder: "Write a comment..." %><br>
+    <%= f.submit "Add Comment", class: "btn btn-primary mt-2" %>
+  <% end %>
+  <hr>
+
   <%= link_to "Back", tasks_path, class: "btn btn-secondary" %>
-  <% if task.user == current_user %>
-    <%= link_to "Edit", edit_task_path(task), class: "btn btn-warning ms-2" %>
+  <% if current_user.admin? %>
+    <%= link_to "Edit", edit_admin_task_path(@task), class: "btn btn-warning ms-2" %>
   <% end %>
 </div>

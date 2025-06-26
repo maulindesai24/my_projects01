@@ -15,7 +15,6 @@
         <thead>
           <tr>
             <th>Title</th>
-            <th>Assigned_by</th>
             <th>Created</th>
             <th>Actions</th>
             <th>Assigned_user_name</th>
@@ -25,26 +24,31 @@
         <tbody>
           <% @tasks.each do |task| %>
             <tr>
-              <td><%= link_to task.title, task_path(task) %></td>
-              <td><%= task.user.email %></td>
+              <td><%= link_to task.title, admin_task_path(task) %></td>
               <td><%= task.created_at.strftime("%d %b %Y") %></td>
               <td>
                 <%= link_to "Comment", task_path(task), class: "btn btn-sm btn-info" %>
                 <% if task.user == current_user %>
-                  <%= link_to "Edit", edit_task_path(task), class: "btn btn-sm btn-warning me-1" %>
-                  <%= button_to "Delete", task_path(task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+                  <%= link_to "Edit", edit_admin_task_path(task), class: "btn btn-sm btn-warning me-1" %>
+                  <%= button_to "Delete", admin_task_path(task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
                 <% else %>
                   <span class="text-muted">N/A</span>
                 <% end %>
+                
                 <% like = task.likes.find_by(user: current_user) %>
                 <% if like %>
-                  <%= button_to 'Unlike', like_path(like), method: :delete, class: "btn btn-sm btn-outline-danger" %>
+                  <%= button_to raw('👎'), like_path(like), method: :delete, class: "btn btn-sm btn-outline-danger" %>
                 <% else %>
-                  <%= button_to 'Like', likes_path(likeable_type: "Task", likeable_id: task.id), method: :post, class: "btn btn-sm btn-outline-primary"%>
+                  <%= button_to raw('👍'), likes_path(likeable_type: "Task", likeable_id: task.id), method: :post, class: "btn btn-sm btn-outline-primary" %>
                 <% end %>
+                <ul>
+                  <% task.likes.each do |like| %>
+                    <li><%= like.user.name %>  ||  <%= image_tag url_for(like.user.profile_picture.variant(resize_to_limit: [50, 50])) %></li>
+                  <% end %>
+                </ul>
                 <p><%= pluralize(task.likes.count, "like") %></p>
               </td>
-              <td><%= task.assigned_user.email if task.assigned_user %></td>
+              <td><%= task.assigned_user.name if task.assigned_user %></td>
               <td>
                 <%= form_with(model: task, url: admin_task_path(task), method: :patch, local: true) do |f| %>
                   <%= f.check_box :completed, { checked: task.completed, onchange: 'this.form.submit();' } %>

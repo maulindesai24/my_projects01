@@ -31,11 +31,11 @@ class PostsController < ApplicationController
 
     def update
         if @post.user == current_user
-        if @post.update(post_params)
-            redirect_to posts_path, notice: "Post updated."
-        else
-            render :edit, status: :unprocessable_entity
-        end
+            if @post.update(post_params)
+                redirect_to posts_path, notice: "Post updated."
+            else
+                render :edit, status: :unprocessable_entity
+            end
         else
             redirect_to posts_path, alert: "Not authorized"
         end

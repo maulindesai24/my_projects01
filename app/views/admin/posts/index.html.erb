@@ -23,13 +23,13 @@
         <tbody>
           <% @posts.each do |post| %>
             <tr>
-              <td><%= link_to post.title, post_path(post) %></td>
-              <td><%= post.user.email %></td>
+              <td><%= link_to post.title, admin_post_path(post) %></td>
+              <td><%= post.user.name %></td>
               <td><%= post.created_at.strftime("%d %b %Y") %></td>
               <td>
-                <% if post.user == current_user || current_user.admin?%>
-                  <%= link_to "Edit", edit_post_path(post), class: "btn btn-sm btn-warning me-1" %>
-                  <%= link_to "Delete", post_path(post), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+                <% if current_user.admin? %>
+                  <%= link_to "Edit", edit_admin_post_path(post), class: "btn btn-sm btn-warning me-1" %>
+                  <%= button_to "Delete", admin_post_path(post), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
                 <% else %>
                   <span class="text-muted">N/A</span>
                 <% end %>

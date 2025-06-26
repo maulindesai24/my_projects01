@@ -19,7 +19,7 @@
         <div class="card-body">Posts</div>
         <div class="card-footer d-flex align-items-center justify-content-between">
           <%= Post.count %> total
-          <%= link_to "View", posts_path, class: "small text-white stretched-link" %>
+          <%= link_to "View", admin_posts_path, class: "small text-white stretched-link" %>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
         <div class="card-body">Tasks</div>
         <div class="card-footer d-flex align-items-center justify-content-between">
           <%= Task.count %> assigned
-          <%= link_to "View", tasks_path, class: "small text-white stretched-link" %>
+          <%= link_to "View", admin_tasks_path, class: "small text-white stretched-link" %>
         </div>
       </div>
     </div>
@@ -44,16 +44,20 @@
         <thead>
           <tr>
             <th>ID</th>
+            <th>Name</th>
             <th>Email</th>
             <th>Signed Up</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <% User.order(created_at: :desc).limit(5).each do |user| %>
+          <% User.order(created_at: :desc).each do |user| %>
             <tr>
               <td><%= user.id %></td>
+              <td><%= user.name %></td>
               <td><%= user.email %></td>
               <td><%= user.created_at.strftime("%b %d, %Y") %></td>
+              <td><%= button_to "Delete", admin_user_path(user), method: :delete, data: { confirm: "Are you sure?" } %></td>
             </tr>
           <% end %>
         </tbody>

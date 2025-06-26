@@ -8,6 +8,7 @@
             <thead>
             <tr>
                 <th>ID</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Signed Up</th>
             </tr>
@@ -16,6 +17,7 @@
             <% User.order(created_at: :desc).limit(5).each do |user| %>
                 <tr>
                 <td><%= user.id %></td>
+                <td><%= user.name %></td>
                 <td><%= user.email %></td>
                 <td><%= user.created_at.strftime("%b %d, %Y") %></td>
                 </tr>
