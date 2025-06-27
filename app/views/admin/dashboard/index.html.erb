@@ -33,35 +33,4 @@
       </div>
     </div>
   </div>
-
-  <div class="card mb-4">
-    <div class="card-header">
-      <i class="fas fa-table me-1"></i>
-      Recent Users
-    </div>
-    <div class="card-body">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Signed Up</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% User.order(created_at: :desc).each do |user| %>
-            <tr>
-              <td><%= user.id %></td>
-              <td><%= user.name %></td>
-              <td><%= user.email %></td>
-              <td><%= user.created_at.strftime("%b %d, %Y") %></td>
-              <td><%= button_to "Delete", admin_user_path(user), method: :delete, data: { confirm: "Are you sure?" } %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>

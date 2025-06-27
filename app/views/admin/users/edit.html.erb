@@ -1,0 +1,53 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4">Edit Profile of <% @user.name %></h1>
+
+  <%= form_for(@user, url: admin_user_path(@user), html: { multipart: true, method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: @user %>
+
+    <div class="field">
+      <%= f.label :Name %><br />
+      <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+    
+    <div class="field">
+      <% if @user.persisted? && @user.profile_picture.attached? && !@user.profile_picture.blob.new_record? %>
+        <div>
+          <%= image_tag url_for(@user.profile_picture.variant(resize_to_limit: [150, 150])) %>
+        </div>
+      <% end %>
+      <div>
+        <%= f.label :profile_picture, "Upload Profile Picture" %><br>
+        <%= f.file_field :profile_picture %>
+      </div>
+    </div>
+    
+    <div class="field">
+      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+      <%= f.password_field :password, autocomplete: "new-password" %>
+      <% if @minimum_password_length %>
+        <br />
+        <em><%= @minimum_password_length %> characters minimum</em>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    </div>
+
+    <div class: "btn btn-success">
+      <%= f.submit "Update" %>
+    </div>
+  <% end %>
+
+  <h3>Cancel my account</h3>
+
+  <div>Unhappy? <%= button_to "Cancel my account", admin_users_path(@user_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+
+  <%= link_to "Back", :back, class: "btn btn-secondary" %>
+</div>

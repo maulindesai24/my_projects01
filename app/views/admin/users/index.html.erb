@@ -11,15 +11,25 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Signed Up</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
-            <% User.order(created_at: :desc).limit(5).each do |user| %>
+            <% User.order(created_at: :desc).each do |user| %>
                 <tr>
-                <td><%= user.id %></td>
-                <td><%= user.name %></td>
-                <td><%= user.email %></td>
-                <td><%= user.created_at.strftime("%b %d, %Y") %></td>
+                    <td><%= user.id %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.created_at.strftime("%b %d, %Y") %></td>
+                    <td>
+                        <%= link_to "Edit Profile", edit_admin_user_path(user), class: "btn btn-sm btn-warning me-1" %>
+                        <% if user.deleted? %>
+                            <%= button_to 'Restore', restore_admin_user_path(user), method: :patch, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-success" %>
+                            <p> Inactive, Click Restore to activate</p>
+                        <% else %>
+                            <%= button_to 'Delete', admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %>
+                        <% end %>
+                    </td>
                 </tr>
             <% end %>
             </tbody>

@@ -1,15 +1,25 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-  registrations: "users/registrations"
+  registrations: "users/registrations",
+  sessions: 'users/sessions'
   }
+
   namespace :admin do
     get "dashboard", to: "dashboard#index"
-    resources :users, only: [ :index, :edit, :update, :create, :destroy ]
+    resources :users  
+
+    devise_for :users, controllers: {
+    registrations: "users/registrations"
+    }
+
+    resources :users do
+      patch :restore, on: :member
+    end
 
     resources :posts do
       resources :comments, only: [ :create, :destroy ]
     end
-    
+
     resources :tasks
   end
 

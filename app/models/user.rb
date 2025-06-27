@@ -9,4 +9,19 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_one_attached :profile_picture
+
+  scope :active, -> { where(deleted_at: nil) }  
+  scope :deleted, -> { where.not(deleted_at: nil) }  
+
+  def soft_delete
+    update(deleted_at: Time.current)
+  end
+
+  def restore
+    update(deleted_at: nil) 
+  end
+
+  def deleted?
+    deleted_at.present?
+  end
 end
